@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 
 import './App.css'
+import SearchInput from './components/SearchInput'
+import SuggestionsList from './components/SuggestionsList'
 
 function App() {
 
@@ -26,12 +28,9 @@ function App() {
   return (
     <div className='max-w-md mx-auto mt-10'>
       <h1>Welcome to Autocomplete search bar</h1>
-      <input type={query} onChange={(e)=>setQuery(e.target.value)} placeholder='Search posts..' className='w-full border px-4 rounded-md' />
-      <div className='border mt-2 rounded-xl '>
-         {filteredPost.map(post=>(
-          <div className='px-4 py-2 border-b' key={post.id}>{post.title}</div>
-         ))}
-      </div>
+      <SearchInput query={query} setQuery={setQuery} />
+      <SuggestionsList filteredPost={filteredPostgit} />
+      
     </div>
   )
 }
