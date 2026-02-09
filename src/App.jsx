@@ -3,11 +3,14 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import SearchInput from './components/SearchInput'
 import SuggestionsList from './components/SuggestionsList'
+import { useDebounce } from './hooks/useDebounce'
 
 function App() {
 
   const [query,setQuery]=useState("")
   const [posts,setPosts]=useState([])
+
+  const debounceQuery=useDebounce(query)
 
   useEffect(()=>{
     const fetchpost=async()=>{
@@ -23,13 +26,13 @@ function App() {
     fetchpost()
   },[])
 
-  const filteredPost=posts.filter(post=>post.title.toLowerCase().includes(query.toLowerCase()))
+  const filteredPost=debounceQuery ? posts.filter(post=>post.title.toLowerCase().includes(debounceQuery.toLowerCase())): [];
   
   return (
     <div className='max-w-md mx-auto mt-10'>
       <h1>Welcome to Autocomplete search bar</h1>
       <SearchInput query={query} setQuery={setQuery} />
-      <SuggestionsList filteredPost={filteredPostgit} />
+      <SuggestionsList filteredPost={filteredPost} />
       
     </div>
   )
